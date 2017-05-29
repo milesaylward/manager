@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import firebase from 'firebase';
+import ReduxThunk from 'redux-thunk';
 import reducers from './reducers';
 import LoginForm from './components/LoginForm';
 
@@ -19,12 +19,18 @@ class App extends Component {
     firebase.initializeApp(config);
   }
 
+  /*
+  Redux Thunk is used to handle asynchronous
+  action creators. In this app it's handling the
+  requests to firebase
+  */
+
   render() {
+    const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
+
     return (
-      <Provider store={createStore(reducers)}>
-        <View>
-          <LoginForm />
-        </View>
+      <Provider store={store}>
+        <LoginForm />
       </Provider>
     );
   }
