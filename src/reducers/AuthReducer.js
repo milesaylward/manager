@@ -3,33 +3,44 @@ Reducers cannot return undefiined
 INITIAL_STATE is defined to ensure
 that onLoad program runs correctly
 
-{ ...state, email: action.payload }
+{ ...state, VAR: action.payload }
 this line copies the state object
 then it returns it overwriting the previous
-email value with the current one
+variable value with the current one
 */
 import {
   EMAIL_CHANGED,
   PASSWORD_CHANGED,
-  LOGIN_USER_SUCCESS
+  LOGIN_USER_SUCCESS,
+  LOGIN_USER_FAIL,
+  LOGIN_USER
 } from '../actions/types';
 
 const INITIAL_STATE = {
   email: '',
   password: '',
-  user: ''
+  user: '',
+  error: '',
+  loading: false
 };
 
 export default (state = INITIAL_STATE, action) => {
-  console.log(action);
-
   switch (action.type) {
     case EMAIL_CHANGED:
       return { ...state, email: action.payload };
     case PASSWORD_CHANGED:
       return { ...state, password: action.payload };
+    case LOGIN_USER:
+      return { ...state, loading: true, error: '' };
     case LOGIN_USER_SUCCESS:
-      return { ...state, user: action.payload };
+      return { ...state, ...INITIAL_STATE, user: action.payload };
+    case LOGIN_USER_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+        password: '',
+        loading: false
+      };
     default:
       return state;
   }
