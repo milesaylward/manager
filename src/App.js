@@ -4,10 +4,17 @@ import { createStore, applyMiddleware } from 'redux';
 import firebase from 'firebase';
 import ReduxThunk from 'redux-thunk';
 import reducers from './reducers';
-import LoginForm from './components/LoginForm';
+import Router from './Router';
 
 class App extends Component {
   componentWillMount() {
+    /*
+    config info left here so you don't
+    need to set up firebase account for testing
+    if for personal use set up own account to not
+    expose your user data. And be kind to my
+    database.
+    */
     const config = {
     apiKey: 'AIzaSyDFygdeJhbeCJcJFbSooSzq1NM68f1ggdc',
     authDomain: 'manager-d5072.firebaseapp.com',
@@ -30,7 +37,7 @@ class App extends Component {
 
     return (
       <Provider store={store}>
-        <LoginForm />
+        <Router />
       </Provider>
     );
   }
